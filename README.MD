@@ -36,8 +36,12 @@
 │ │  └── 
 │ │
 │ ├── templates
+│ │  ├── base.html
 │ │  ├── contacts.html
-│ │  └── home.html
+│ │  ├── header.html
+│ │  ├── home.html
+│ │  ├── products.html
+│ │  └── title.html
 │ │
 │ ├── __init__.py
 │ ├── admin.py
