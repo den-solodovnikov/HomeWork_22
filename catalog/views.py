@@ -7,12 +7,12 @@ def home(request):
     # Выборка последних 5 созданных продуктов
     products = Product.objects.all()
     context = {"products": products}
-    latest_products = Product.objects.order_by("created_at")[:5]
+    # latest_products = Product.objects.order_by("created_at")[:5]
 
     # Вывод данных в консоль сервера
-    print("Последние 5 созданных продуктов:")
-    for product in latest_products:
-        print(f"- {product.name} (создан: {product.created_at})")
+    # print("Последние 5 созданных продуктов:")
+    # for product in latest_products:
+    #     print(f"- {product.name} (создан: {product.created_at})")
 
     return render(request, "home.html", context)
 
@@ -23,6 +23,12 @@ def contacts(request):
         phone = request.POST.get("phone")
         message = request.POST.get("message")
         print(f"You have new message from {name}({phone}): {message}")
+        if name and message:
+            Contact.objects.create(
+                name=name,
+                phone=phone,
+                message=message
+            )
 
     contacts = Contact.objects.all()
     last_contact = contacts.order_by("-id")[0]

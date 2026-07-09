@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 
-{% block tittle %}SkyMarket{% endblock %}
+{% block title %}SkyMarket{% endblock %}
 
 {% block content %}
 
 {% include 'title.html' %}
 
 <div class="container">
+    <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary mb-3">← Назад к списку товаров</a>
     <div class="row text-center">
-        <div class="col-4 mx-auto">
+        <div class="col-4 mx-auto h-100">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
                     <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>

@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
-{% block tittle %}SkyMarket{% endblock %}
+{% block title %}SkyMarket{% endblock %}
 
 {% block content %}
+
+{% include 'title.html' %}
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Контакты</h1>
@@ -13,20 +15,24 @@
         <div class="col-lg-9 col-md-6 col-sm-12">
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
-                    <table class="table table-striped">
-                        <tr>
-                            <td class="w-25">Имя</td>
-                            <td>{{ contacts.name }}</td>
-                        </tr>
-                        <tr>
-                            <td class="w-25">Телефон</td>
-                            <td>{{ contacts.phone }}</td>
-                        </tr>
-                        <tr>
-                            <td class="w-25">Сообщение</td>
-                            <td>{{ contacts.message|truncatechars:50 }}</td>
-                        </tr>
-                    </table>
+                    {% if contacts %}
+                        <table class="table table-striped">
+                            <tr>
+                                <td class="w-25">Имя</td>
+                                <td>{{ contacts.name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Телефон</td>
+                                <td>{{ contacts.phone }}</td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Сообщение</td>
+                                <td>{{ contacts.message|truncatechars:50 }}</td>
+                            </tr>
+                        </table>
+                    {% else %}
+                        <p>Нет сохранённых контактов.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
