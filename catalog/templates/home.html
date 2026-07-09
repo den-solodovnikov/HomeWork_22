@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block tittle %}SkyMarket{% endblock %}
+{% block title %}SkyMarket{% endblock %}
 
 {% block content %}
 
@@ -12,12 +12,15 @@
             <div class="col-3">
                 <div class="card mb-4 box-shadow w-100">
                     <div class="card-header text-truncate w-100">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="img-fluid object-fit-cover" style="height: 100px;" alt="{{ product.name }}">
+                        {% endif %}
                         <h4 class="my-0 font-weight-normal">{{ product.name | truncatechars:100 }}</h4>
                     </div>
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title">{{ product.price }}</h1>
-                        <p>{{ product.description | truncatechars:25 }}</p>
-                        <a href="{% url 'catalog:products' product.pk %}">
+                        <p>{{ product.description | truncatechars:100 }}</p>
+                        <a href="{% url 'catalog:product_detail' product.pk %}">
                             <button type="button" class="btn btn-lg btn-block btn-outline-primary">Открыть</button>
                         </a>
                     </div>
