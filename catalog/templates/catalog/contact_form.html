@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 
 {% block title %}SkyMarket{% endblock %}
 
 {% block content %}
 
-{% include 'title.html' %}
+{% include 'catalog/title.html' %}
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
     <h1 class="display-4">Контакты</h1>
@@ -15,19 +15,19 @@
         <div class="col-lg-9 col-md-6 col-sm-12">
             <div class="card mb-4 box-shadow">
                 <div class="card-body">
-                    {% if contacts %}
+                    {% if last_record %}
                         <table class="table table-striped">
                             <tr>
                                 <td class="w-25">Имя</td>
-                                <td>{{ contacts.name }}</td>
+                                <td>{{ last_record.name }}</td>
                             </tr>
                             <tr>
                                 <td class="w-25">Телефон</td>
-                                <td>{{ contacts.phone }}</td>
+                                <td>{{ last_record.phone }}</td>
                             </tr>
                             <tr>
                                 <td class="w-25">Сообщение</td>
-                                <td>{{ contacts.message|truncatechars:50 }}</td>
+                                <td>{{ last_record.message|truncatechars:50 }}</td>
                             </tr>
                         </table>
                     {% else %}
