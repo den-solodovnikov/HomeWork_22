@@ -1,0 +1,45 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}SkyMarket{% endblock %}
+
+{% block content %}
+
+{% include 'catalog/title.html' %}
+
+<div class="container">
+    <a href="{% url 'blogs:blog' %}" class="btn btn-outline-secondary mb-3">← Назад к списку записей</a>
+    <div class="row text-center">
+        <div class="col-4 mx-auto h-100">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ blog.title }}</h4>
+                    {% if blog.image %}
+                    <img src="{{ blog.image.url }}" class="card-img-top" alt="{{ blog.title }}">
+                    {% else %}
+                    <img src=# class="card-img-top" alt="Image is missing">
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <p>Просмотров - {{ blog.views_counter }}</p>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blogs:blog_update' blog.pk %}"
+                       role="button">Редактировать</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'blogs:blog_delete' blog.pk %}"
+                       role="button">Удалить</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-8 mx-auto">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Описание</h4>
+                </div>
+                <div class="card-body">
+                    <p>{{ blog.content }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

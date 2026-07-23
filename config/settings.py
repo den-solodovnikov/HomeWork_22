@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog',
+    'blogs',
 ]
 
 MIDDLEWARE = [
@@ -91,3 +92,12 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+# EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'densfmost@mail.ru' # Почта, с которой будут отправляться письма
+EMAIL_HOST_PASSWORD = 'xvmsnbVvc3Khc7yHmIjV'  # Пароль приложения (не от самой почты)
+DEFAULT_FROM_EMAIL = 'densfmost@mail.ru'

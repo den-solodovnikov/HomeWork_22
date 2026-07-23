@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 
 {% block title %}SkyMarket{% endblock %}
 
 {% block content %}
 
-{% include 'title.html' %}
+{% include 'catalog/title.html' %}
 
 <div class="container">
     <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary mb-3">← Назад к списку товаров</a>

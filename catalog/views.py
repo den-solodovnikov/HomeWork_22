@@ -1,42 +1,39 @@
-from django.shortcuts import render
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from catalog.models import Product, Contact
 
 
-def home(request):
-    # Выборка последних 5 созданных продуктов
-    products = Product.objects.all()
-    context = {"products": products}
-    # latest_products = Product.objects.order_by("created_at")[:5]
-
-    # Вывод данных в консоль сервера
-    # print("Последние 5 созданных продуктов:")
-    # for product in latest_products:
-    #     print(f"- {product.name} (создан: {product.created_at})")
-
-    return render(request, "home.html", context)
+class ProductsListView(ListView):
+    model = Product
+    template_name = "catalog/home.html"
+    context_object_name = "products"
 
 
-def contacts(request):
-    if request.method == "POST":
-        name = request.POST.get("name")
-        phone = request.POST.get("phone")
-        message = request.POST.get("message")
-        print(f"You have new message from {name}({phone}): {message}")
-        if name and message:
-            Contact.objects.create(
-                name=name,
-                phone=phone,
-                message=message
-            )
-
-    contacts = Contact.objects.all()
-    last_contact = contacts.order_by("-id")[0]
-    context = {"contacts": last_contact}
-    return render(request, "contacts.html", context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
 
 
-def products(request, pk):
-    product = Product.objects.get(id=pk)
-    context = {"product": product}
-    return render(request, "products.html", context)
+class ContactCreateView(CreateView):
+    model = Contact
+    fields = ("name", "phone", "message")
+    template_name = "catalog/contact_form.html"
+    context_object_name = "contacts"
+    success_url = reverse_lazy('catalog:contact_form')
+
+    def get_context_data(self, **kwargs):
+        # Получаем стандартный контекст
+        context = super().get_context_data(**kwargs)
+        # Добавляем последнюю запись в контекст по ключу last_record
+        context['last_record'] = Contact.objects.latest('id')
+        return context
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ("name", "description", "image", "category", "price")
+    template_name = "catalog/product_form.html"
+    success_url = reverse_lazy('catalog:home')
