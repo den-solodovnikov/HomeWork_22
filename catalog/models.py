@@ -27,29 +27,30 @@ class Product(models.Model):
     name = models.CharField(
         max_length=150,
         verbose_name="Наименование продукта",
-        help_text="Введите наименование продукта",
+        # help_text="Введите наименование продукта",
     )
     description = models.TextField(
         verbose_name="Описание продукта",
-        help_text="Введите описание продукта",
+        # help_text="Введите описание продукта",
         null=True,
         blank=True,
     )
     image = models.ImageField(
         upload_to="images/",
         verbose_name="Фото продукта",
-        help_text="Загрузите фото продукта",
+        # help_text="Загрузите фото продукта",
         null=True,
         blank=True,
     )
     category = models.ForeignKey(
         'Category',
+        verbose_name="Категория",
         on_delete=models.CASCADE,
         related_name="products",
     )
     price = models.FloatField(
         verbose_name="Цена товара",
-        help_text="Введите цену товара",
+        # help_text="Введите цену товара",
     )
     created_at = models.DateField(
         auto_now_add=True,
