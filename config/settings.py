@@ -1,4 +1,6 @@
 import os
+
+from django.conf.global_settings import LOGIN_REDIRECT_URL
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -10,7 +12,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = True if os.getenv('DEBUG') == 'True' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,6 +24,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog',
     'blogs',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +102,13 @@ EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 465
 # EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = '***' # Почта, с которой будут отправляться письма
-EMAIL_HOST_PASSWORD = '****'  # Пароль приложения (не от самой почты)
-DEFAULT_FROM_EMAIL = '****'
+EMAIL_HOST_USER = 'densfmost@mail.ru' # Почта, с которой будут отправляться письма
+EMAIL_HOST_PASSWORD = '0KxBY3IneEhkthCFdrUd'  # Пароль приложения (не от самой почты)
+DEFAULT_FROM_EMAIL = 'densfmost@mail.ru'
+
+AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = 'catalog:home'
+LOGOUT_REDIRECT_URL = 'catalog:home'
+
+LOGIN_URL = 'login'

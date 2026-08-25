@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from blogs.models import Blog
 from catalog.models import Category, Product, Contact
+from users.models import User
 
 
 @admin.register(Category)
@@ -28,3 +29,9 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ["id", "title", "image", "content", "is_published", "views_counter", "is_notification_sent"]
     list_filter = ("is_published", "title",)
     search_fields = ("title", "content")
+
+@admin.register(User)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ["is_superuser", "email", "phone", "country", "avatar"]
+    list_filter = ("email",)
+    search_fields = ("email", "phone")

@@ -3,8 +3,22 @@
         <h5 class="my-0 mr-md-auto font-weight-normal">SkyMarket</h5>
         <nav class="ms-5">
             <a class="p-2 btn btn-outline-primary" href="/catalog/">Главная</a>
-            <a class="p-2 btn btn-outline-primary" href="/catalog/contacts/">Контакты</a>
+            <a class="p-2 btn btn-outline-primary" href="#">Контакты</a>
             <a class="p-2 btn btn-outline-primary" href="/blogs/">Блогерам</a>
+            {% if user.is_authenticated %}
+            <form action="{% url 'users:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Выйти</button>
+            </form>
+            <!--                <a class="nav-link" href="{% url 'users:logout' %}" method="post">Выйти</a>-->
+            <!--                {% csrf_token %}-->
+            <p>Добро пожаловать {{ user.username }} !</p>
+            {% else %}
+            <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
+            <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
+            <p>Добро пожаловать Гость! </p>
+            {% endif %}
+
         </nav>
     </div>
 </header>
