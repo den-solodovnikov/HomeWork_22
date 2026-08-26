@@ -1,0 +1,28 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}SkyMarket{% endblock %}
+
+{% block content %}
+
+{% include 'catalog/title.html' %}
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-4">
+            <form method="post" class="row" enctype="multipart/form-data">
+                <div class="card">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-primary">
+                        Зарегистрировать
+                    </button>
+<!--                    <a class="btn btn-lg btn-block btn-outline-primary" href=# role="button">Войти</a>&ndash;&gt;-->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
