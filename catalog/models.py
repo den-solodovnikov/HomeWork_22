@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from users.models import User
 
 
 class Category(models.Model):
@@ -24,6 +27,10 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    CHOICES = [
+        (True, _('Да')),
+        (False, _('Нет')),
+    ]
     name = models.CharField(
         max_length=150,
         verbose_name="Наименование продукта",
@@ -66,6 +73,17 @@ class Product(models.Model):
         null=True,
         blank=True,
     )
+    is_publicated = models.BooleanField(
+        default=False,
+        verbose_name=_("Опубликован"),
+        help_text="Выберите значение",
+        choices=CHOICES,
+        blank=True,
+        null=True,
+    )
+
+    owner = models.ForeignKey(User, verbose_name="Автор", blank=True, null=True, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.name
@@ -74,6 +92,9 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ("name", "created_at")
+        permissions = [
+            ('can_unpublish_product', 'Can unpublish product'),
+        ]
 
 
 class Contact(models.Model):
