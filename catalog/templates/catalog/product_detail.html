@@ -8,8 +8,13 @@
 
 <div class="container">
     <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary mb-3">← Назад к списку товаров</a>
-    <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-outline-secondary mb-3">Изменить товар</a>
-    <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-outline-secondary mb-3">Удалить товар</a>
+    {% if perms.catalog.delete_product and perms.catalog.change_product or user == product.owner %}
+        <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-outline-secondary mb-3">Изменить товар</a>
+        <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-outline-secondary mb-3">Удалить товар</a>
+        {% if product.is_publicated %}
+            <a href="{% url 'catalog:product-unpublished' product.pk %}" class="btn btn-outline-secondary mb-3">Снять с публикации</a>
+        {% endif %}
+    {% endif %}
     <div class="row text-center">
         <div class="col-4 mx-auto h-100">
             <div class="card mb-4 box-shadow">

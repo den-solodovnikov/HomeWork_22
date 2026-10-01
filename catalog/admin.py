@@ -13,7 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "price", "category"]
+    list_display = ["is_publicated", "id", "name", "price", "category"]
     list_filter = ("category",)
     search_fields = ("name", "description")
 
@@ -29,9 +29,3 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ["id", "title", "image", "content", "is_published", "views_counter", "is_notification_sent"]
     list_filter = ("is_published", "title",)
     search_fields = ("title", "content")
-
-@admin.register(User)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["is_superuser", "email", "phone", "country", "avatar"]
-    list_filter = ("email",)
-    search_fields = ("email", "phone")
