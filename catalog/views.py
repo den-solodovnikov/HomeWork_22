@@ -37,8 +37,8 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_class(self):
         user = self.request.user
-        if not user == self.object.owner or not user.has_perm('catalog.change_product'):
-            return HttpResponseForbidden('У вас нет прав для удаления продукта.')
+        if not user == self.object.owner and not user.has_perm('catalog.change_product'):
+            return HttpResponseForbidden('У вас нет прав для изменения продукта.')
         return ProductForm
 
 class ProductsListView(ListView):
@@ -59,14 +59,15 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('catalog:home')
     login_url = reverse_lazy('users:login')
 
-    def post(self, request, product_id):
-        product = get_object_or_404(Product, pk=product_id)
-        user = self.request.user
+    def dispatch(self, request, *args, **kwargs):
+        product = self.get_object()
 
-        if not user == self.object.owner or not request.user.has_perm('catalog.delete_product'):
+        if product.owner != request.user:
             return HttpResponseForbidden('У вас нет прав для удаления продукта.')
-        product.delete()
-        return redirect('catalog:home')
+        if not request.user.has_perm('catalog.delete_product'):
+            return HttpResponseForbidden('У вас нет прав для удаления продукта.')
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ContactCreateView(LoginRequiredMixin, CreateView):
