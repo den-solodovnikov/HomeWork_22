@@ -1,14 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
 
 from catalog.forms import ProductForm
-from catalog.models import Product, Contact
+from catalog.models import Product, Contact, Category
+from catalog.services import get_products_by_category
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -41,6 +44,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             return HttpResponseForbidden('У вас нет прав для изменения продукта.')
         return ProductForm
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class ProductsListView(ListView):
     model = Product
     template_name = "catalog/home.html"
@@ -85,10 +89,23 @@ class ContactCreateView(LoginRequiredMixin, CreateView):
         context['last_record'] = Contact.objects.latest('id')
         return context
 
+
 def unpublished_product(request, pk):
+    """ Функция снятия продукта с публикации. """
     product = get_object_or_404(Product, pk=pk)
     if not request.user.has_perm('catalog.can_unpublish_product'):
             return HttpResponseForbidden('У вас нет прав для снятия с публикации продукта.')
     product.is_publicated = False
     product.save()
     return redirect(reverse('catalog:home'))
+
+
+def products_by_category_view(request, category_id):
+    """ Выводит список продуктов заданной категории. """
+    products = get_products_by_category(category_id)
+    return render(request, 'catalog/products_by_category.html', {'products': products})
+
+
+def category_list(request):
+    categories = Category.objects.all()  # Получаем все категории
+    return render(request, 'catalog/category_list.html', {'categories': categories})
