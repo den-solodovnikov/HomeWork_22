@@ -25,6 +25,13 @@ class Category(models.Model):
         verbose_name_plural = "Категории"
         ordering = ("name",)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        context['category'] = Category.objects.get(pk=category_id)
+        context['categories'] = Category.objects.all()
+        return context
+
 
 class Product(models.Model):
     CHOICES = [
